@@ -36,7 +36,7 @@
    let punto = '';//for decimal control
    let equalWasPressed = '';// when you preseed equal to fix stuff
    let sumaResta = [];//holds all values to sum at the end
-   let wani ='';// control check on the (-) part 
+
    let historial = 'Hist'//historial baby!
    let seen = ''//toggle the historial !!
    checkNumber();//check numbers also the .
@@ -212,7 +212,7 @@
       }
       
       if(x == 'suma'){//to add
-                   console.log(w);
+             
          acomodating(operator);//checks last operator amd do proper action to save value on w or to push on to array
          
          if (operator == 'x' || operator == '/' || operator == '(-)'|| operator == 'lol'){
@@ -337,7 +337,7 @@
         
          //this one checks the last operator on current to adjusts the total
          lastNumber = addingNumber(x);
-         console.log(lastNumber);
+      
          if(lastNumber == '' && operator != '(-)'){
             
             return;
@@ -346,11 +346,10 @@
          if(lastNumber ==''){
             
          }
-           console.log(z); 
+            
          operatorLast = current.textContent.length - lastNumber.length - 1;
          adjustment = current.textContent.charAt(operatorLast);
          
-      
          w = acomodating(adjustment);
      
          if(sumaResta.length == 0){
@@ -364,8 +363,7 @@
             w = 0;//when you add or substrac but also multiply and stuff
            
          }
-         
-         sumaResta.forEach((number)=>{
+          sumaResta.forEach((number)=>{
           w += number;
          });//we do the final math!
          
@@ -402,7 +400,7 @@
          //is important to know what was the laast operator 
          operatorLast = current.textContent.length;
          adjustment = current.textContent.charAt(operatorLast-1);
-         console.log(adjustment);
+      
          if(current.textContent =='0'){
             return;
          }
@@ -430,7 +428,11 @@
          }else{
             //this is way more complicated than what I thought it would be, this add (-) to the left of the laast number previusly inputed, or deleting the symbol too!, this would make the number negative or positive
             
-            
+            lastNumber = z.toString();
+       
+            //is important to know what was the laast operator 
+            operatorLast = current.textContent.length - lastNumber.length - 1;
+            adjustment = current.textContent.charAt(operatorLast);
          
             let a = current.textContent.indexOf('+');//this looks
             let b = current.textContent.indexOf('-');//nd checks for
@@ -443,17 +445,20 @@
             let dl = current.textContent.lastIndexOf('/');
             let el = current.textContent.lastIndexOf(')');
          
-           
+            if (z < 0){
+               z = z*-1;
+            }
            
             if(e != -1 && el == e ){//first checks if there is a (-) or not
-            if(e < al || e < bl || e < cl || e < dl){
-               current.textContent = numberS + '(-)' + z; 
-            //(thereis none) at the end but atleast one before
-            }else {
-               current.textContent = numberS + z;
-            }//there is one and only one
+               if(e < al || e < bl || e < cl || e < dl){
+                  current.textContent = numberS + '(-)' + z; 
+               //(thereis none) at the end but atleast one before
+               }else {
+                  current.textContent = numberS + z;
+               }//there is one and only one
             
             }else if (e == -1) {//there is nothing
+               
                current.textContent = numberS + '(-)' + z;
                
             }else {
@@ -465,44 +470,35 @@
                //any other case
             }
             }
-            lastNumber = z.toString();
-       
-            //is important to know what was the laast operator 
-            operatorLast = current.textContent.length - lastNumber.length - 1;
-            adjustment = current.textContent.charAt(operatorLast);
-            
+ 
             if(adjustment == 'x' || adjustment == '/'){
           //improtant to check las perator to ajdust w
-               acomodating(adjustment);
+               if(operator =='(-)'){
+                  w = w*-1;
+                  return;
+               }
+                acomodating(adjustment);  
+              
                w = w * -1;
-               
-               wani = 'aja';//super special inique conditions to fix
+            
             }else{
-               if(wani =='aja'){
-               w = w * -1;
-               //wich only works here
-               
-               }else if(adjustment ==')'){
-                  w = -1 * z;//adjusting the value if there was (-) at the end
-                 
+               if(adjustment ==')'){
+                  w = -1 * w;//adjusting the value if there was (-) at the end
+           
+               }else if (adjustment ==''){
+                  w = -1 *z;//other cases
+            
                }else{
-                  
+                
                   w = z;//other cases
                }
-            }  
-           //when (-) w=-z when Not w = z
-           if (wani == 'ina'){
-            w = w*-1;
-            wani ='';//cleaning wani onces it gets here again
             }
-           if (adjustment == '-'){
-            w = w*-1;
-           //and this just happens if a negative was used before as to change the expression
-        
-             wani ='ina';
-            } 
-         
-         }         
+            
+            if(adjustment == '+'){
+               w = w*-1;
+               
+            }
+            
          operator = '(-)';
         //gives the las operator a name
       }else if(x == 'clir'){
@@ -521,7 +517,7 @@
          punto = ''; 
          equalWasPressed = '';
          sumaResta = [];
-         wani ='';
+  
          current.textContent = '0';
          before.textContent = 'Hist';
          historial = 'Hist';
@@ -557,7 +553,7 @@
          }
             
       }  
-      console.log(current.textContent.length);
+     
       if(w == Infinity || w == -Infinity){
          //The infinity LOCK DOWN
          return;
