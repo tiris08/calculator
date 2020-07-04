@@ -498,7 +498,7 @@
                w = w*-1;
                
             }
-            
+         }
          operator = '(-)';
         //gives the las operator a name
       }else if(x == 'clir'){
